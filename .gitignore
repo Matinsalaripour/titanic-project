@@ -20,13 +20,6 @@ venv/
 *.swp
 *.swo
 
-# Data files (اختیاری - اگر داده‌ها بزرگ هستند)
-*.csv
-*.xlsx
-
-# Jupyter Notebook
-.ipynb_checkpoints/
-*.ipynb
 
 # OS
 .DS_Store

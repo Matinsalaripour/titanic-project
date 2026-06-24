@@ -76,7 +76,7 @@ class TitanicFeatureEngineer:
         #  is_train : bool - If True, drops 'PassengerId'. If False, keeps it for submission. 
 
         # Create a copy to avoid modifying the original raw data
-        df = df.copy
+        df = df.copy()
 
         # --- 1. Apply Simple Imputers ---
         df['Age'] = self.age_imputer.transform(df[['Age']]).ravel()
@@ -126,6 +126,6 @@ class TitanicFeatureEngineer:
         
         # --- 10. Concatenate the encoded columns and drop temporary string columns ---
         df = pd.concat([df, title_df, embarked_df], axis=1)
-        df.drop(columns=['Title', 'AgeGroup'], inplace=True, errors='ignore')
+        df.drop(columns=['Title', 'AgeGroup', 'Embarked'], inplace=True, errors='ignore')
 
         return df

@@ -37,7 +37,7 @@ class TitanicFeatureEngineer:
 
         # --- Fit Imputers ---
         self.age_imputer.fit(df[['Age']])
-        self.embarked_imputer.fit(df[['emabarked']])
+        self.embarked_imputer.fit(df[['Embarked']])
         self.fare_imputer.fit(df[['Fare']])
 
         # We need to fit the encoders. 
@@ -45,9 +45,9 @@ class TitanicFeatureEngineer:
         temp = df.copy()
 
         # Apply imputations temporarily
-        temp['Age'] = self.age_imputer.transform(temp[['Age']])
-        temp['Embarked'] = self.embarked_imputer.transform(temp[['Embarked']])
-        temp['Fare'] = self.fare_imputer.transform(temp[['Fare']])
+        temp['Age'] = self.age_imputer.transform(temp[['Age']]).ravel()
+        temp['Embarked'] = self.embarked_imputer.transform(temp[['Embarked']]).ravel()
+        temp['Fare'] = self.fare_imputer.transform(temp[['Fare']]).ravel()
 
         # 1. Extract Titles
         temp['Title'] = temp['Name'].apply(self._extract_title)
@@ -79,9 +79,9 @@ class TitanicFeatureEngineer:
         df = df.copy
 
         # --- 1. Apply Simple Imputers ---
-        df['Age'] = self.age_imputer.transform(df[['Age']])
-        df['Embarked'] = self.embarked_imputer.transform(df[['Embarked']])
-        df['Fare'] = self.fare_imputer.transform(df[['Fare']])
+        df['Age'] = self.age_imputer.transform(df[['Age']]).ravel()
+        df['Embarked'] = self.embarked_imputer.transform(df[['Embarked']]).ravel()
+        df['Fare'] = self.fare_imputer.transform(df[['Fare']]).ravel()
 
         # --- 2. Convert Sex to Numeric (female=0, male=1) ---
         df['Sex'] = df['Sex'].map({'male': 1, 'female': 0})
@@ -99,7 +99,7 @@ class TitanicFeatureEngineer:
         # --- 6. Ordinal Encoder for Age Groups ---
         # Fill NaN (just in case) and reshape for the encoder
         age_group_values = df['AgeGroup'].fillna('Adult').values.reshape(-1, 1)
-        df['AgeGroupOrdinal'] = self.age_ordinal_encoder.transform(age_group_values)
+        df['AgeGroupOrdinal'] = self.age_ordinal_encoder.transform(age_group_values).ravel()
 
         # --- 7. OneHot Encoder for Title and Embarked ---
         title_encoded = self.title_encoder.transform(df[['Title']])

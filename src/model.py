@@ -18,7 +18,7 @@ def train_model(X_train, y_train, model_type='random_forest', **kwargs):
 
     # Returns : model = trained sklearn-compatible model
 
-    if model_type == 'Logistic':
+    if model_type == 'logistic':
         model = LogisticRegression(max_iter=1000, random_state=42, **kwargs)
     elif model_type == 'random_forest':
         model = RandomForestClassifier(random_state=42, **kwargs)

@@ -1,0 +1,4 @@
+Kaggle Public Score: 0.77511
+Submitted on: 2026-06-25
+Model used: XGBoost (Tuned)
+Features used: Pclass, Sex, Fare, AgeGroupOrdinal, IsAlone, OneHotEncoded Titles, OneHotEncoded Embarked

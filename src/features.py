@@ -1,5 +1,3 @@
-# src/features.py
-
 import pandas as pd
 import numpy as np
 import re
@@ -8,13 +6,9 @@ from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder
 
 
 class TitanicFeatureEngineer:
-    """
-    A complete feature engineering pipeline for the Titanic dataset.
-    Follows sklearn's fit/transform API.
-    """
-    
+   
     def __init__(self):
-        # 1. Imputers (Simple Imputer as you requested)
+        # 1. Imputers
         self.age_imputer = SimpleImputer(strategy='median')
         self.embarked_imputer = SimpleImputer(strategy='most_frequent')
         self.fare_imputer = SimpleImputer(strategy='median')  # For test set
@@ -31,19 +25,16 @@ class TitanicFeatureEngineer:
         self.age_bins = [0, 12, 20, 40, 60, np.inf]
         self.age_labels = self.age_categories
         
-        # 4. Placeholders for column names after encoding (to build the DataFrame properly)
+        # 4. Placeholders for column names after encoding
         self.title_columns = None
         self.embarked_columns = None
 
     def _extract_title(self, name):
-        """Extract Mr, Mrs, Miss, Master, etc., from the Name column."""
+        # Extract Mr, Mrs, Miss, Master, etc., from the Name column.
         match = re.search(r' ([A-Za-z]+)\.', name)
         return match.group(1) if match else 'Unknown'
 
     def fit(self, df):
-        """
-        Fit the imputers and encoders on the raw training data.
-        """
         # --- Fit Imputers ---
         self.age_imputer.fit(df[['Age']])
         self.embarked_imputer.fit(df[['Embarked']])      # Correct column name
@@ -67,7 +58,7 @@ class TitanicFeatureEngineer:
         self.title_encoder.fit(temp[['Title']])
         self.embarked_encoder.fit(temp[['Embarked']])
         
-        # Fit Ordinal Encoder on AgeGroup (fill NaNs just in case)
+        # Fit Ordinal Encoder on AgeGroup.
         age_group_clean = temp['AgeGroup'].fillna('Adult').values.reshape(-1, 1)
         self.age_ordinal_encoder.fit(age_group_clean)
         
@@ -78,16 +69,7 @@ class TitanicFeatureEngineer:
         return self
 
     def transform(self, df, is_train=True):
-        """
-        Transform the raw DataFrame into clean, numerical features.
         
-        Parameters:
-        df : pd.DataFrame - Raw train or test data.
-        is_train : bool - If True, drops 'PassengerId'. If False, keeps it for submission.
-        
-        Returns:
-        pd.DataFrame - Fully processed features (all numeric).
-        """
         # Create a copy to avoid modifying the original raw data
         df = df.copy()   # <-- Corrected: added parentheses
         
